@@ -1,10 +1,11 @@
 import React from 'react';
-import Bj from './blackjack/Bj';
+import {Link} from 'react-router-dom';
 
 const Main = () => {
   return (
     <div>
-      <Bj />
+      Main Page
+      <Link to='/blackjack' >BlackJack Portal</Link>
     </div>
   );
 };

@@ -3,7 +3,12 @@ import BlackJack from './blackjack';
 import './blackjack.css'
 
 const Bj = () => {
-  return <BlackJack />
+  return (
+    <div>
+    <BlackJack />
+    <script type="text/javascript" src="./dotTrail.js"></script>
+    </div>
+  )
 };
 
 export default Bj;

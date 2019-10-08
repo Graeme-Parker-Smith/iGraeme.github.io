@@ -1,9 +1,13 @@
-import React from "react";
-import cardNames from './cardNames';
-import './blackjack.css';
-import redChip from './red-chip.png';
-const BlackJack = (targetId) => {
-  
+import React, { useEffect } from "react";
+import cardNames from "./cardNames";
+import "./blackjack.css";
+import redChip from "./red-chip.png";
+const BlackJack = targetId => {
+  useEffect(() => {
+    document.title = "Blackjack";
+  }, []);
+  // expand background on window resize
+  // center the gameBoard on any window size
   let firstGame = true;
   let bet = 0;
   let winnings = 0;
@@ -17,14 +21,6 @@ const BlackJack = (targetId) => {
   let message = "";
 
   const changeWinnings = (thisHand, winner, mult = 1) => {
-    // console.log("hand.status: ", playerHands[0].status);
-    // console.log("Dealerhand.status: ", dealerHand.status);
-    // console.log("Player Score: ", playerHands[0].score);
-    // console.log("Dealerhand.score: ", dealerHand.score);
-    // console.log("thisHand.bet: ", thisHand.bet);
-    // console.log("winner is: ", winner);
-    // console.log("mult is: ", mult);
-    // console.trace();
     if (winner) {
       thisHand.status = "win";
       winnings += thisHand.bet * mult;
@@ -38,13 +34,7 @@ const BlackJack = (targetId) => {
 
   // calculate win or lose hands
   const calcWinner = () => {
-    // console.log("hand.status: ", playerHands[0].status);
-    // console.log("Dealerhand.status: ", dealerHand.status);
-    // console.log("Player Score: ", playerHands[0].score);
-    // console.log("Dealerhand.score: ", dealerHand.score);
     playerHands.forEach(h => {
-      // console.log("hand.status: ", h.status);
-      // console.log("Dealerhand.status: ", dealerHand.status);
       if (dealerHand.status === "blackjack" && h.status !== "lose")
         changeWinnings(h, false);
       if (
@@ -62,8 +52,7 @@ const BlackJack = (targetId) => {
           setMessage("playerGreater");
         }
         if (dealerHand.status === "lose") changeWinnings(h, true);
-        if (h.status === "blackjack" && dealerHand.status !== "blackjack"){
-          // console.log("h.status!!!!!!!!!", h.status);
+        if (h.status === "blackjack" && dealerHand.status !== "blackjack") {
           setMessage("blackjack");
           changeWinnings(h, true, 1.5);
         }
@@ -115,6 +104,11 @@ const BlackJack = (targetId) => {
 
   function startDealerTurn() {
     // begin dealer turn
+    const pBoxesC = document.getElementsByClassName("playerBox");
+    const pBoxes = [...pBoxesC];
+    pBoxes.forEach(box =>
+      box.childNodes.forEach(node => (node.disabled = true))
+    );
     function dealerTurn() {
       dealCard(dealerHand);
       if (dealerHand.standing === false) {
@@ -137,7 +131,7 @@ const BlackJack = (targetId) => {
       stand(dealerHand);
     } else if (
       // Does dealer need to draw a third card? If no, then stand
-      playerHands.every(h => h.status !== null ) ||
+      playerHands.every(h => h.status !== null) ||
       (dealerHand.score >= 17 &&
         dealerHand.hand.every(card => card.value !== 11)) ||
       dealerHand.score >= 18
@@ -155,7 +149,6 @@ const BlackJack = (targetId) => {
   const setMessage = condition => {
     function setDisplay(text) {
       message = text;
-      // messageD.innerHTML = message;
       let newMsg = document.createElement("li");
       newMsg.innerHTML = message;
       newMsg.classList.add("msg-item");
@@ -232,7 +225,6 @@ const BlackJack = (targetId) => {
     let imgSrc;
     for (let i = 0; i < 52 * deckNum.innerHTML; i++) {
       imgSrc = require(`./PNG/${cardImages[i]}.png`);
-      console.log(imgSrc);
       cards[i].firstChild.firstChild.innerHTML = `<img src=${imgSrc} >`;
       cards[i].value = calcVal(cardImages[i]);
       cards[i].style.top = 0;
@@ -240,38 +232,36 @@ const BlackJack = (targetId) => {
     }
   };
 
-  function stopRedeal(){
-    if (cards[cardsDealt].classList.contains("dealt")){
+  function stopRedeal() {
+    if (cards[cardsDealt].classList.contains("dealt")) {
       cardsDealt++;
       stopRedeal();
     }
   }
 
   const dealerBJ = () => {
-      if (dealerHand.hand[0].value + dealerHand.hand[1].value === 21) {
-        stand(playerHands[0]);
-      }
-  }
+    if (dealerHand.hand[0].value + dealerHand.hand[1].value === 21) {
+      stand(playerHands[0]);
+    }
+  };
 
   // deal cards
   const dealCard = whichHand => {
     // console.log("cardsDealt: ", cardsDealt);
     let h = whichHand.hand.length;
-    if (dealerHand.hand.length === 2){
+    if (dealerHand.hand.length === 2) {
       dealerBJ();
     }
     // push card to hand, update
     stopRedeal();
     whichHand.hand.push(cards[cardsDealt]);
-    if (cards[cardsDealt] !== dealerHand.hand[1]){
+    if (cards[cardsDealt] !== dealerHand.hand[1]) {
       flipCard(whichHand);
     }
     h = whichHand.hand.length;
     calcHandScore(whichHand);
     // if dealing card to dealer...
     if (whichHand === dealerHand) {
-      // console.log("dealerHand.length: ",h);
-
       // update dealer score display and assign new card positions
       dealerScore.innerHTML = whichHand.score;
       cards[cardsDealt].fromtop = -200 + 160 * Math.floor((h - 1) / 2);
@@ -279,7 +269,7 @@ const BlackJack = (targetId) => {
       // handle dealer blackjack
       if (h === 2) {
         surrender.disabled = false;
-         if (
+        if (
           playerHands[0].hand.length === 2 &&
           playerHands[0].score === 21 &&
           playerHands[0].standing === false
@@ -295,9 +285,6 @@ const BlackJack = (targetId) => {
         setMessage("dealerBust");
         stand(dealerHand);
       } else {
-        // if dealer's turn, check if player hands have lost yet
-        // if (h > 2) calcWinner();
-        // check if dealer should stand
         if (
           (dealerHand.score >= 17 &&
             dealerHand.hand.every(card => card.value !== 11)) ||
@@ -307,7 +294,6 @@ const BlackJack = (targetId) => {
           stand(dealerHand);
       }
     } else {
-      // console.log("playerHand.length:", h);
       surrender.disabled = true;
       // if dealing card to player...
       // assign player card positions
@@ -318,14 +304,6 @@ const BlackJack = (targetId) => {
       let pBox = document.getElementById(whichHand.id);
       let pScore = pBox.firstChild;
       pScore.innerHTML = whichHand.score;
-      // handle player blackjack
-      //       if (h === 2) {
-      //   if (whichHand.score === 21) {
-      //     whichHand.status = "blackjack";
-      //     setTimeout(() => stand(whichHand), 500);
-      //     setMessage("blackjack");
-      //   }
-      // }
       // handle player bust
       if (whichHand.score > 21) {
         changeWinnings(whichHand, false);
@@ -333,7 +311,6 @@ const BlackJack = (targetId) => {
         stand(whichHand);
         setMessage("bust");
       }
-
 
       if (whichHand.hand[h - 2]) {
         if (whichHand.hand[h - 1].value === whichHand.hand[h - 2].value) {
@@ -350,11 +327,13 @@ const BlackJack = (targetId) => {
     cards[cardsDealt].classList.add("dealt");
     // apply css card-dealing animation
     // with (cards[cardsDealt].style) {
-      cards[cardsDealt].style.zIndex = "1000";
-      cards[cardsDealt].style.top = cards[cardsDealt].fromtop + "px";
-      cards[cardsDealt].style.left = cards[cardsDealt].fromleft + "px";
-      cards[cardsDealt].style.transform = `rotate(${Math.floor(Math.random() * 5) + 178}deg)`;
-      cards[cardsDealt].style.zIndex = "0";
+    cards[cardsDealt].style.zIndex = "1000";
+    cards[cardsDealt].style.top = cards[cardsDealt].fromtop + "px";
+    cards[cardsDealt].style.left = cards[cardsDealt].fromleft + "px";
+    cards[cardsDealt].style.transform = `rotate(${Math.floor(
+      Math.random() * 5
+    ) + 178}deg)`;
+    cards[cardsDealt].style.zIndex = "0";
     // }
     cardsDealt++;
     if (cards.every(card => card.classList.contains("dealt"))) {
@@ -496,7 +475,7 @@ const BlackJack = (targetId) => {
     });
     newPlayerBox.id = playerHands[playerHands.length - 1].id;
     let thisHand;
-    if (e.path){
+    if (e.path) {
       thisHand = playerHands[e.path[1].id];
     } else {
       thisHand = playerHands[e.composedPath()[1].id];
@@ -512,7 +491,7 @@ const BlackJack = (targetId) => {
 
   const doubleDown = e => {
     let thisHand;
-    if (e.path){
+    if (e.path) {
       thisHand = playerHands[e.path[1].id];
     } else {
       thisHand = playerHands[e.composedPath()[1].id];
@@ -644,7 +623,6 @@ const BlackJack = (targetId) => {
   felt.appendChild(startGameBtn);
 
   function sur() {
-    
     playerHands[0].status = "surrender";
     winnings -= playerHands[0].bet * 0.5;
     winningsD.innerHTML = `Winnings: ${winnings}`;
@@ -732,7 +710,10 @@ const BlackJack = (targetId) => {
     if (e.composedPath()[0].innerHTML === "▶" && deckNum.innerHTML < 8) {
       deckNum.innerHTML = deckNum.innerHTML * 1 + 1;
       cloneCards();
-    } else if (e.composedPath()[0].innerHTML === "◀" && deckNum.innerHTML * 1 > 1) {
+    } else if (
+      e.composedPath()[0].innerHTML === "◀" &&
+      deckNum.innerHTML * 1 > 1
+    ) {
       deckNum.innerHTML = deckNum.innerHTML * 1 - 1;
       cloneCards();
     }
@@ -801,17 +782,19 @@ const BlackJack = (targetId) => {
       cards.push(newCard);
       cards[i].style.transform = `rotate(${Math.floor(Math.random() * 10)}deg)`;
     }
-    
+
     firstGame = true;
   }
   cloneCards();
 
-console.log(stage);
+  console.log(stage);
   return (
-    <div ref={(nodeElement) => {nodeElement && nodeElement.appendChild(stage)}}>
-    </div>
-  )
+    <div
+      ref={nodeElement => {
+        nodeElement && nodeElement.appendChild(stage);
+      }}
+    ></div>
+  );
 };
 
-// var game = new BlackJack("stage");
 export default BlackJack;
