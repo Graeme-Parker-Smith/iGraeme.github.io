@@ -1,0 +1,57 @@
+.Main {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  background-color: #000000;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23220000' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%23440000' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%23660000' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%23880000' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%23A00' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
+background-attachment: fixed;
+background-size: cover;
+color: white;
+}
+
+.Main-home {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.h-description {
+  position: fixed;
+  left: 33.333vw;
+  font-family: termina, Helvetica, Arial, "sans-serif";
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.introduce {
+  position: relative;
+  top: 10vh;
+  width: 500px;
+  font-size: 24px;
+}
+
+.h-d-name-box {
+  position: relative;
+  display: inline-block;
+  opacity: 1;
+  text-transform: uppercase;
+  top: 2vh;
+  font-size: 24px;
+  letter-spacing: 0.3em;
+}
+
+.h-d-name1 {
+  margin-right: 2em;
+}
+
+.h-d-name2 {
+  margin-right: 2em;
+  /* text-decoration: line-through; */
+}
+
+/* .h-d-name3 {
+  margin-left: 2em;
+} */

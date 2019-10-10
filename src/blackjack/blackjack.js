@@ -8,6 +8,7 @@ const BlackJack = targetId => {
   }, []);
   // expand background on window resize
   // center the gameBoard on any window size
+  // add cursor trail back in, or possibly touchscreen tap effect
   let firstGame = true;
   let bet = 0;
   let winnings = 0;

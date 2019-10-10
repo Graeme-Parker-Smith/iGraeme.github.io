@@ -1,14 +1,18 @@
 import React from "react";
-import BlackJack from './blackjack';
-import './blackjack.css'
+import { Link } from "react-router-dom";
+import BlackJack from "./blackjack";
+import "./blackjack.css";
 
 const Bj = () => {
   return (
     <div>
-    <BlackJack />
-    <script type="text/javascript" src="./dotTrail.js"></script>
+      <BlackJack />
+      {/* <button id="Home-link"> */}
+        <Link id="Home-link" to="/">Back to Homepage</Link>
+      {/* </button> */}
+      <script type="text/javascript" src="./dotTrail.js"></script>
     </div>
-  )
+  );
 };
 
 export default Bj;

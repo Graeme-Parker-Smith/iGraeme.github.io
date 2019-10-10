@@ -1,4 +1,27 @@
+#Home-link {
+  position: absolute;
+  background-color: rgb(255, 117, 25);
+  color: white;
+  padding: 10px;
+  box-shadow: 0px 0px 10px 5px rgb(136, 50, 218);
+  border: 3px solid rgb(150, 69, 15);
+  border-radius: 15px;
+  width: 125px;
+  font-size: 14px;
+  cursor: pointer;
+  top: 20px;
+  left: 100px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+}
 
+#Home-link > a {
+  color: white;
+  text-decoration: none;
+  height: 100%;
+  width: 100%;
+}
 
 .trail { /* className for the trail elements */
   position: absolute;
